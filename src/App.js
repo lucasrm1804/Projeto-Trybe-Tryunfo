@@ -23,26 +23,24 @@ class App extends React.Component {
     value = type === 'checkbox'
       ? checked
       : value;
-    this.setState({ [name]: value });
-
-    const arr = Object.values(this.state);
-    const { cardAttr1, cardAttr2, cardAttr3 } = this.state;
-    const maxNumber = 90;
-    const maxSum = 210;
-    const sum = Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3);
-    console.log(sum);
-    if (arr.some((data) => data > maxNumber || data < 0 || data === '')) {
-      this.setState({ isSaveButtonDisabled: true });
-    } else if (sum > maxSum) {
-      this.setState({ isSaveButtonDisabled: true });
-    } else {
-      this.setState({ isSaveButtonDisabled: false });
-    }
+    this.setState({ [name]: value }, () => {
+      const arr = Object.values(this.state);
+      const { cardAttr1, cardAttr2, cardAttr3 } = this.state;
+      const maxNumber = 90;
+      const maxSum = 210;
+      const sum = Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3);
+      if (arr.some((data) => data > maxNumber || data < 0 || data === '')) {
+        this.setState({ isSaveButtonDisabled: true });
+      } else if (sum > maxSum) {
+        this.setState({ isSaveButtonDisabled: true });
+      } else {
+        this.setState({ isSaveButtonDisabled: false });
+      }
+    });
   };
 
   onSaveButtonClick = (event) => {
     event.preventDefault();
-    console.log('Ola');
   }
 
   render() {
