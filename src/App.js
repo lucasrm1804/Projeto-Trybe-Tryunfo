@@ -16,7 +16,14 @@ class App extends React.Component {
       cardTrunfo: false,
       hasTrunfo: false,
       isSaveButtonDisabled: true,
+      deck: [],
     };
+  }
+
+  newCard = (card) => {
+    this.setState((prevState) => (
+      { deck: [...prevState.deck, card] }
+    ));
   }
 
   onInputChange = ({ target: { name, value, type, checked } }) => {
@@ -41,6 +48,30 @@ class App extends React.Component {
 
   onSaveButtonClick = (event) => {
     event.preventDefault();
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      deck,
+    } = this.state;
+
+    this.newCard({
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+    });
+
+    if (deck.every((card) => (card.hasTrunfo))) {
+      this.setState({ hasTrunfo: true });
+    }
     this.setState({
       cardName: '',
       cardDescription: '',
@@ -50,7 +81,6 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
-      hasTrunfo: false,
     });
   }
 
@@ -94,7 +124,6 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
-          hasTrunfo={ hasTrunfo }
         />
       </div>
     );
